@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.FruitMapper">
+<!--增删改查一期-->
+    <select id="listXml" resultType="com.example.entity.Fruit">
+        SELECT * FROM fruits
+    </select>
+
+    <delete id="deleteXml" parameterType="int">
+        DELETE FROM fruits WHERE id = #{id}
+    </delete>
+
+    <select id="findXml" resultType="com.example.entity.Fruit" parameterType="int">
+        SELECT * FROM fruits WHERE id = #{id}
+    </select>
+
+    <update id="updateXml" parameterType="com.example.entity.Fruit">
+        UPDATE fruits SET name = #{name}, price = #{price} ,stock = #{stock} WHERE id = #{id}
+    </update>
+
+    <insert id="addXml" parameterType="com.example.entity.Fruit">
+        INSERT INTO fruits (name, price, stock) VALUES (#{name}, #{price}, #{stock})
+    </insert>
+
+<!--增删改查二期-->
+
+</mapper>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.OrderItemMapper">
+
+    <select id="getOrderDetailsByOrderId" resultType="HashMap">
+        SELECT order_items.id, order_items.order_id, order_items.fruit_id, order_items.quantity,
+               fruits.name AS fruit_name, fruits.price AS fruit_price, fruits.stock AS fruit_stock
+        FROM order_items
+                 JOIN fruits ON order_items.fruit_id = fruits.id
+        WHERE order_items.id = #{orderId};
+    </select>
+
+    <select id="getOrdersByUserId" resultMap="orderItemDTO">
+        SELECT
+               oi.order_id AS orderId,
+               oi.quantity,
+               f.name AS fruitName,
+               f.price AS fruitPrice,
+               f.stock AS fruitStock
+        FROM order_items oi
+                 JOIN fruits f ON oi.fruit_id = f.id
+        WHERE oi.order_id IN (
+            SELECT o.id
+            FROM orders o
+            WHERE o.customer_id = #{userId}
+        )
+    </select>
+    <resultMap id="orderItemDTO" type="com.example.entity.DTO.OrderItemDTO">
+        <result property="orderId" column="order_id" />
+        <result property="quantity" column="quantity" />
+        <result property="fruitName" column="fruitName" />
+        <result property="fruitPrice" column="fruitPrice" />
+        <result property="fruitStock" column="fruitStock" />
+    </resultMap>
+</mapper>
